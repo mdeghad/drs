@@ -42,7 +42,6 @@ class DatabaseHelper {
   // Insert Audio and Manual dictation
   insertAudio(Dictation newAudio) async {
     // await deleteAllAudios();
-
     var db = await database;
 
     //Exception handling
@@ -67,13 +66,14 @@ class DatabaseHelper {
         AppStrings.col_PhysicalFileName: newAudio.physicalFileName,
         AppStrings.col_DOS: newAudio.dos,
         AppStrings.col_PracticeId: newAudio.practiceId,
-        AppStrings.col_PracticeName:newAudio.practiceName,
+        AppStrings.col_PracticeName: newAudio.practiceName,
         AppStrings.col_LocationId: newAudio.locationId,
-        AppStrings.col_LocationName:newAudio.locationName,
+        AppStrings.col_LocationName: newAudio.locationName,
         AppStrings.col_ProviderId: newAudio.providerId,
-        AppStrings.col_ProviderName:newAudio.providerName,
+        AppStrings.col_ProviderName: newAudio.providerName,
         AppStrings.col_AppointmentTypeId: newAudio.appointmentTypeId,
-        AppStrings.col_AppointmentId:newAudio.appointmentId,
+        AppStrings.col_AppointmentId: newAudio.appointmentId,
+        AppStrings.col_AppointmentDate: newAudio.appointmentdate,
         AppStrings.col_isEmergencyAddOn: newAudio.isEmergencyAddOn,
         AppStrings.col_ExternalDocumentTypeId: newAudio.externalDocumentTypeId,
         AppStrings.col_Description: newAudio.description,
@@ -84,7 +84,7 @@ class DatabaseHelper {
       // PhotoList photoList = newAudio.photoList;
       // final photoResult = await db.insert(AppStrings.dbTablePhotoList, {
       //   AppStrings.col_PhotoList_Id:photoList.id,
-      //   AppStrings.col_PhotoListDictationId:photoList.dictationLocalId,
+      //   AppStrings.col_PhotoListDictationId:newAudio.id,
       //   AppStrings.col_PhotoListExternalAttachmentId:photoList.externalattachmentlocalid,
       //   AppStrings.col_PhotoListAttachmentName:photoList.attachmentname,
       //   AppStrings.col_PhotoListAttachmentSizeBytes:photoList.attachmentsizebytes,
@@ -92,6 +92,7 @@ class DatabaseHelper {
       //   AppStrings.col_PhotoListAttachmentFileName:photoList.fileName,
       //   AppStrings.col_PhotoListAttachmentPhysicalFileName:photoList.physicalfilename,
       //   AppStrings.col_PhotoListAttachmentCreatedDate:photoList.createddate
+      //  // AppStrings.col_dictationId:newAudio.id
       // });
       return res;
     }
@@ -138,8 +139,9 @@ class DatabaseHelper {
   //   }
   // }
 
-  //insert photo list
+ // insert photo list
   insertPhotoList(PhotoList photoList) async {
+    Dictation dictation;
     var db = await database;
 
     //exception handling
@@ -173,7 +175,14 @@ class DatabaseHelper {
   }
 
 
-
+  deleteAllDictations() async {
+    var db = await database;
+    // DateTime now = new DateTime.now();
+    // var res = await db.rawDelete("DELETE FROM dictationlocal WHERE createdDate < date('now')");
+    var res = await db.rawDelete("DELETE FROM dictationlocal");
+    print("Audios Deleteddddddddddddddddddd $res");
+    return res;
+  }
 
 
   // deleteAllAudios({int minutes = 5}) async {
@@ -209,6 +218,32 @@ class DatabaseHelper {
         print('res.map $c');
 
         var user = Dictation.fromMap(c);
+        return user;
+      }).toList()
+          : [];
+      print(list);
+      return list;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+  Future<List<Dictation>> getAllDictation() async {
+    var db = await database;
+
+
+    //Exception handling
+    try {
+      var res = await db.rawQuery(AppStrings.selectEpisodeId);
+
+      // print('data is saving $res');
+
+      List<Dictation> list = res.isNotEmpty
+          ? res.map((c) {
+        print('res.map $c');
+
+        var user = Dictation(episodeId: c["episodeid"],appointmentId: c["appointmentid"]);
         return user;
       }).toList()
           : [];

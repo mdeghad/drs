@@ -29,6 +29,7 @@ class Dictation {
   String providerName;
   int appointmentTypeId;
   int appointmentId;
+  String appointmentdate;
  PhotoList photoList;
 
   // String CPTCodeIds;
@@ -66,6 +67,7 @@ class Dictation {
       this.providerName,
       this.appointmentTypeId,
       this.appointmentId,
+        this.appointmentdate,
      this.photoList,
       this.dictationTypeId,
       this.isEmergencyAddOn,
@@ -107,6 +109,7 @@ class Dictation {
       'isEmergencyAddOn': isEmergencyAddOn,
       'externalDocumentTypeId': externalDocumentTypeId,
       'appointmentId': appointmentId,
+      'appointmentdate':appointmentdate,
       'description': description,
       'appointmentProvider': appointmentProvider,
       'isSelected': isSelected
@@ -140,6 +143,7 @@ class Dictation {
     providerId = map['providerId'];
     providerName = map['providerName'];
     appointmentTypeId = map['appointmentTypeId'];
+    appointmentdate=map['appointmentdate'];
    photoList=map['photoList'];
     // CPTCodeIds = map['CPTCodeIds'];
     dictationTypeId = map['dictationTypeId'];
@@ -149,4 +153,12 @@ class Dictation {
     appointmentProvider = map['appointmentProvider'];
     isSelected = map['isSelected'];
   }
+  String toString() {
+    return toMap().toString();
+  }
+  // List<Object> get props => [
+  //   this.locationId,
+  //   this.locationName,
+  //   this.memberId,
+  // ];
 }

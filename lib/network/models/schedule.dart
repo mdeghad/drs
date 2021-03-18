@@ -32,6 +32,11 @@ class Schedule {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 }
 
 class Header {
@@ -256,6 +261,11 @@ class ScheduleList {
     data['videoSessionId'] = this.videoSessionId;
     data['dictationApproveRejectEnabled'] = this.dictationApproveRejectEnabled;
     return data;
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }
 

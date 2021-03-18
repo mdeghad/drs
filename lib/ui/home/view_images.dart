@@ -118,6 +118,9 @@ class ViewImagesState extends State {
                   } on PlatformException catch (e) {
                     print(AppStrings.filePathNotFound + e.toString());
                   }
-                })));
+                  return Container();
+                })
+
+        ));
   }
 }
